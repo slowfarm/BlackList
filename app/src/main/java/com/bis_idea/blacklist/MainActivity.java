@@ -8,24 +8,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity  {
 
-    GoogleMap googleMap;
     FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createMapView();
         setAdapterViewPager();
     }
 
@@ -53,34 +44,6 @@ public class MainActivity extends AppCompatActivity  {
         pagerTabStrip.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         pagerTabStrip.setTextColor(Color.WHITE);
     }
-    private void createMapView(){
-
-        try {
-            if(null == googleMap){
-                googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView)).getMap();
-
-                if(null == googleMap) {
-                    Toast.makeText(getApplicationContext(),
-                            "Error creating map",Toast.LENGTH_SHORT).show();
-                }
-            }
-        } catch (NullPointerException exception){
-            Log.e("mapApp", exception.toString());
-        }
-    }
-    private void addMarker(){
-
-        /** Make sure that the map has been initialised **/
-        if(null != googleMap){
-            googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(51.5018, -0.1468))
-                    .title("Marker")
-                    .draggable(true)
-                    .alpha(1.0f)
-                    .visible(true)
-            );
-        }
-    }
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 3;
 
@@ -99,11 +62,11 @@ public class MainActivity extends AppCompatActivity  {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return WallFragment.newInstance(0, "Стена");
+                    return WallFragment.newInstance();
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return FilterFragment.newInstance(2, "Поиск");
+                    return FilterFragment.newInstance();
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    return MapFragment.newInstance(1, "Карта");
+                    return MapFragmentClass.newInstance();
                 default:
                     return null;
             }

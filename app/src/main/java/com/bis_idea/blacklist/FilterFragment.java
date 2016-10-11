@@ -7,27 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class FilterFragment extends Fragment {
-    private String title;
-    private int page;
 
-    public static FilterFragment newInstance(int page, String title) {
+
+    public static FilterFragment newInstance() {
         FilterFragment fragmentFirst = new FilterFragment();
         Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
         fragmentFirst.setArguments(args);
         return fragmentFirst;
     }
 
-    // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
     }
 
-    // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
