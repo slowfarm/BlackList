@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Black List</string>
+    <string-array name="country">
+    <item>Россия</item>
+    <item>Америка</item>
+    <item>Украина</item>
+    <item>Беларуссия</item>
+</string-array>
+    <string-array name="city">
+        <item>Москва</item>
+        <item>Зеленоград</item>
+        <item>Краснодар</item>
+        <item>Ростов на дону</item>
+    </string-array>
 </resources>
+

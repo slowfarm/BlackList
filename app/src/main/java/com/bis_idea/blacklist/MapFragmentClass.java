@@ -1,5 +1,6 @@
 package com.bis_idea.blacklist;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
 
+    GoogleMap googleMap;
     private MapView mMapView = null;
     private ArrayList<String[]> coordinates = new ArrayList<>();
 
@@ -53,23 +56,37 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap gMap) {
+        googleMap = gMap;
         googleMap.setMyLocationEnabled(true);
         double x = Double.parseDouble(coordinates.get(0)[0]);
         double y = Double.parseDouble(coordinates.get(0)[1]);
         LatLng sydney = new LatLng(x, y);
         googleMap.addMarker(new MarkerOptions()
                 .position(sydney).title(coordinates.get(0)[2])
-                .snippet(coordinates.get(0)[3]));
+                .snippet(coordinates.get(0)[3])
+                .draggable(true));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        //перемещение маркера
+        googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {}
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                LatLng sydney = marker.getPosition();
+                googleMap.addMarker(new MarkerOptions()
+                        .position(sydney).title(sydney.toString())
+                        .snippet(sydney.toString()));
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {}
+        });
     }
 
     public void parser(String strJson) {
@@ -84,6 +101,12 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
     }
 
     @Override
