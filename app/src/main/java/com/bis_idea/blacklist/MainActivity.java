@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity  {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return WallFragment.newInstance();
+                    return MapFragmentClass.newInstance();
                 case 1: // Fragment # 0 - This will show FirstFragment different title
                     return FilterFragment.newInstance();
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    return MapFragmentClass.newInstance();
+                    return WallFragment.newInstance();
                 default:
                     return null;
             }
@@ -77,11 +77,11 @@ public class MainActivity extends AppCompatActivity  {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Стена";
+                    return "Карта";
                 case 1:
                     return "Поиск";
                 case 2:
-                    return "Карта";
+                    return "Стена";
                 default:
                     return null;
             }
